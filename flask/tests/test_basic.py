@@ -22,9 +22,9 @@ class BasicTests(unittest.TestCase):
         self.assertEqual(app.debug, False)
         # self.assertEqual(app.config[''])
 
-        # executed after each test
-        def tearDown(self):
-            pass
+    def tearDown(self):
+        """Execute after each test."""
+        pass
 
     def run_tests(self):
         """Run tests."""
