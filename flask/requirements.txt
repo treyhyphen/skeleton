@@ -1,0 +1,4 @@
+flask
+flask-sqlalchemy
+python-dotenv
+# zappa # for AWS Lambda Flask apps
