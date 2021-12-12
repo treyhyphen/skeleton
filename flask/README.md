@@ -2,16 +2,6 @@
 
 Just a skeleton Flask app that has a barebones API, frontend, and db (SQLite in this case, but easily modified to anything else)
 
-## `.env`
-
-Control various Flask/SQLAlchemy ENV variables.
-
-Also loads up any variable named FLASK_G_* as a global Flask `g` object. See templates/wrapper.html for how most of these get used.
-
-## `applicaiton/frontend.py`
-
-Has a `before_request processor` that will fix the `base_url` for apps running behind an Apache or NGINX* reverse proxy.
-
 _* *NOTE for NGINX:*_
 By default, proxypass will not set `X-Forwarded-For-*` headers. You need to configure with:
 ```
@@ -27,6 +17,16 @@ server {
 ```
 
 Source: https://www.nginx.com/resources/wiki/start/topics/examples/likeapache/
+
+## `.env`
+
+Control various Flask/SQLAlchemy ENV variables.
+
+Also loads up any variable named FLASK_G_* as a global Flask `g` object. See templates/wrapper.html for how most of these get used.
+
+## `applicaiton/frontend.py`
+
+Just the front-end controller
 
 ## `application/modules/`
 
