@@ -4,19 +4,16 @@
 {% endblock %}
 
 {% block body %}
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <h1 id='heading'></h1>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 id='heading'></h1>
         </div>
     </div>
-    <script>
-        $.get("{{ url_for('api.sup_world') }}", function (data) {
-            $('#heading').text(data.msg);
-        });
-    </script>
-    
-</body>
+</div>
+<script>
+    $.get("{{ url_for('api.sup_world') }}", function (data) {
+        $('#heading').text(data.msg);
+    });
+</script>
 {% endblock %}
