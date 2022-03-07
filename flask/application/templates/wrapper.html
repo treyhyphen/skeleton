@@ -34,23 +34,15 @@
         {% endblock %}
         {% endfilter %}
 
-        {%- if g.jquery_version %}
-        <script src="https://code.jquery.com/jquery-{{g.jquery_version}}.min.js"></script>
-        {% endif %}
-
         {%- if g.bootstrap_version %}
-
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@{{g.bootstrap_version}}/dist/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Bootstrap JavaScript Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@{{g.bootstrap_version}}/dist/js/bootstrap.bundle.min.js"></script>
-
         {% endif %}
 
         {%- if g.fontawesome_version %}
 
         <!-- Font awesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/{{g.fontawesome_version}}/css/all.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@{{g.fontawesome_version}}/css/all.min.css"/>
 
         {% endif %}
 
@@ -69,12 +61,31 @@
         {% endif %}
 
         {%- filter indent(width=8) %}
+
         {%- block head_extra %}
         {% endblock %}
+
         {% endfilter %}
     </head>
+
     {% filter indent(width=4) %}
+    <body>
+
     {% block body %}
     {% endblock %}
+
+    {%- if g.jquery_version %}
+    <script src="https://code.jquery.com/jquery-{{g.jquery_version}}.min.js"></script>
+    {% endif %}
+
+    {%- if g.bootstrap_version %}
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@{{g.bootstrap_version}}/dist/js/bootstrap.bundle.min.js"></script>
+    {% endif %}    
+
+    {% block body_extra %}
+    {% endblock %}
+
+    </body>
     {% endfilter %}
 </html>

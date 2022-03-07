@@ -1,22 +1,25 @@
 {% extends "wrapper.html" %}
 
 {% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/application.css').replace('/prod', '') }}">
+{% endblock %}
+
+{% block body_extra %}
+<scrpt src="{{ url_for('static', filename='js/application.js').replace('/prod', '') }}">
+
+<script>
+    $.get("{{ url_for('api.sup_world') }}", function (data) {
+        $('#heading').text(data.msg);
+    });
+</script>
 {% endblock %}
 
 {% block body %}
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <h1 id='heading'></h1>
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 id='heading'></h1>
         </div>
     </div>
-    <script>
-        $.get("{{ url_for('api.sup_world') }}", function (data) {
-            $('#heading').text(data.msg);
-        });
-    </script>
-    
-</body>
+</div>
 {% endblock %}

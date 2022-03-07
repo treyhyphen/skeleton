@@ -4,8 +4,8 @@ Returns:
     Flask app.
 """
 from flask import Flask, g
-from .frontend import bp_frontend
-from .api import bp_api
+from application.views.frontend import bp_frontend
+from application.views.api import bp_api
 from os import environ, path
 from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
@@ -22,7 +22,7 @@ if path.exists(".env"):
     load_dotenv('.env', verbose=True)
     app.logger.debug("Loaded .env")
 
-app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1, x_proto=1)
 app.config.from_object('config.Config')
 app.register_blueprint(bp_frontend)
 app.register_blueprint(bp_api, url_prefix='/api')
