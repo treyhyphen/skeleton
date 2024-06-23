@@ -1,0 +1,3 @@
+.secrets/
+data/
+.docker/*/data/*

@@ -1,0 +1,59 @@
+version: "3"
+name: data-suite
+
+services:
+  # Container for DB
+  db:
+    image: mariadb:latest
+    container_name: data-suite-db
+    environment:
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    secrets:
+      - db_root_password
+    volumes:
+      # Create persistent storage for mysql data
+      - ./db/data/:/var/lib/mysql
+    expose:
+      - 3306
+
+  # Container for Superset frontend
+  superset:
+    build: ./superset
+    container_name: data-suite-superset
+    ports:
+      - "8080:5000"
+    environment:
+      FLASK_APP: superset
+      SUPERSET_CONFIG_PATH: /home/superset/.superset/superset_config.py
+    secrets:
+      - superset_secret_key
+      - superset_admin_user
+      - superset_admin_pass
+    volumes:
+      # Create persistent storage for superset data
+      - ./superset/data/:/home/superset/.superset
+    #command: superset
+    #command: /bin/bash -c "while sleep 1000; do :; done"
+    command: /bin/bash /tmp/run_superset.sh
+    depends_on:
+      - db
+    
+  # Container for dev work
+  dev:
+    build: ./dev
+    container_name: data-suite-dev
+    volumes:
+      - ..:/workspaces/data-suite:cached
+    depends_on:
+      - db
+    command: /bin/bash -c "while sleep 1000; do :; done"
+
+secrets:
+  db_root_password:
+    file: ../.secrets/db_root_password.txt
+  superset_secret_key:
+    file: ../.secrets/superset_secret_key.txt
+  superset_admin_user:
+    file: ../.secrets/superset_admin_user.txt
+  superset_admin_pass:
+    file: ../.secrets/superset_admin_pass.txt
