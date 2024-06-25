@@ -1,0 +1,41 @@
+version: "3"
+name: flask-mysql-zappa-lambda
+
+services:
+  db:
+    image: mariadb:latest
+    container_name: flask-db
+    environment:
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    secrets:
+      - db_root_password
+    volumes:
+      # Create persistent storage for mysql data
+      - ./db/data/:/var/lib/mysql
+    expose:
+      - 3306
+    healthcheck:
+      test: "exit 0"
+
+  # Container for dev work
+  dev:
+    build:
+      # Set context to one level up so we can copy in
+      # requirements.txt and install into image
+      context: ../  
+      dockerfile: ./.docker/dev/Dockerfile
+    container_name: data-suite-dev
+    secrets:
+      - db_root_password    
+    ports:
+      - "8080:80"
+    volumes:
+      - ..:/workspaces/flask-mysql-zappa-lambda:cached
+    depends_on:
+      db:
+        condition: service_healthy
+    command: /bin/bash -c "while sleep 1000; do :; done"
+
+secrets:
+  db_root_password:
+    file: ../.secrets/db_root_password.txt      
